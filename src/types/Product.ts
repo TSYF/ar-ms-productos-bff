@@ -1,7 +1,7 @@
 import { Matcher } from "@/utils";
 
 export interface Product {
-    id: number,
+    id?: number,
     images: string,
     name: string,
     description: string,
@@ -12,7 +12,6 @@ export interface Product {
 }
 
 export const productMatcher: Matcher = {
-    id: "number",
     images: "string",
     name: "string",
     description: "string",

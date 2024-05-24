@@ -20,11 +20,12 @@ const doc = {
 };
 
 const outputFile = '../../openapi-contract.json';
-const routes = ['../routes/product.ts'];
+const routes = [
+  '../routes/product.ts',
+  '../routes/category.ts'
+];
 
 /* NOTE: If you are using the express Router, you must pass in the 'routes' only the 
 root file where the route starts, such as index.js, app.js, routes.js, etc ... */
 
-swaggerAutogen({openapi: "3.0.3"})(outputFile, routes, doc).then(() => {
-  require('../main'); // Your project's root file
-});
+swaggerAutogen({openapi: "3.0.3"})(outputFile, routes, doc);
