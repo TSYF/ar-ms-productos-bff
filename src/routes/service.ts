@@ -3,30 +3,30 @@ import { ErrorBody } from '@/types/ErrorBody';
 import { CommonResponseBody } from '@/types/CommonResponseBody';
 import express from 'express';
 import { matches } from '@/utils';
-import { Product, productMatcher } from '../types/Product';
+import { Service, serviceMatcher } from '../types/Service';
 import { RequestBody } from '../utils';
 const router = express.Router();
 
-const { PRODUCT_ENDPOINT } = envs;
+const { SERVICE_ENDPOINT } = envs;
 
 //* Index
 router.get(
     "/",
-    (req, res) => fetch(PRODUCT_ENDPOINT)
+    (req, res) => fetch(SERVICE_ENDPOINT)
         .then(response => response.json())
-        .then(products => {
-            if (Array.isArray(products)) {
+        .then(services => {
+            if (Array.isArray(services)) {
                 const CODE = 200;
                 const response = new CommonResponseBody(
                     true,
                     CODE,
-                    products
+                    services
                 )
                 res.status(CODE).send(response);
             } else {
                 const CODE = 500;
                 const error: ErrorBody = {
-                    private: "La lista de productos no pasa el typecheck de array en Index",
+                    private: "La lista de serviceos no pasa el typecheck de array en Index",
                     public: new CommonResponseBody(
                         false,
                         CODE,
@@ -61,17 +61,17 @@ router.get(
 router.get(
     "/:id",
     (req, res) => fetch(
-        `${PRODUCT_ENDPOINT}${req.params.id}/`
+        `${SERVICE_ENDPOINT}${req.params.id}/`
     ).then(response => response.json())
-    .then(product => {
+    .then(service => {
                 const CODE = 200;
                 const response = new CommonResponseBody(
                     true,
                     CODE,
-                    product
+                    service
                 )
                 res.status(CODE).send(response);
-            res.status(200).send(product);
+            res.status(200).send(service);
     }).catch(err => {
         const CODE = 500;
 
@@ -96,10 +96,10 @@ router.get(
 router.get(
     "/list/:ids",
     (req, res) => fetch(
-        `${PRODUCT_ENDPOINT}list/${req.params.ids}/`
+        `${SERVICE_ENDPOINT}list/${req.params.ids}/`
     ).then(response => response.json())
-    .then(products => {
-            res.status(200).send(products);
+    .then(services => {
+            res.status(200).send(services);
     }).catch(err => {
         const CODE = 500;
 
@@ -125,9 +125,9 @@ router.post(
     "/",
     (req, res) => {
 
-        const product: Product & RequestBody = req.body;
+        const service: Service & RequestBody = req.body;
 
-        if (!matches(product, productMatcher)) {
+        if (!matches(service, serviceMatcher)) {
             const CODE = 422;
             
             const error: ErrorBody = {
@@ -136,7 +136,7 @@ router.post(
                     false,
                     CODE,
                     {
-                        message: "La forma del cuerpo no corresponde al Producto"
+                        message: "La forma del cuerpo no corresponde al Serviceo"
                     }
                 )
             }
@@ -147,25 +147,25 @@ router.post(
         }
         
         fetch(
-            PRODUCT_ENDPOINT,
+            SERVICE_ENDPOINT,
             {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(product)
+                body: JSON.stringify(service)
             }
         ).then(response => (console.log(response), response.json()))
-        .then(product => {
-            if (matches(product, productMatcher)) {
+        .then(service => {
+            if (matches(service, serviceMatcher)) {
                 const response = new CommonResponseBody(
                     true,
                     201,
-                    product
+                    service
                 )
                 res.status(201).send(response);
             } else {
                 const CODE = 500;
                 const error: ErrorBody = {
-                    private: "El producto retornado no pasa el typecheck de array en Store",
+                    private: "El serviceo retornado no pasa el typecheck de array en Store",
                     public: new CommonResponseBody(
                         false,
                         CODE,
@@ -174,7 +174,7 @@ router.post(
                         }
                     )
                 }
-                console.log(product);
+                console.log(service);
                 console.log(error.private);
                 res.status(CODE).send(error.public);
             }
