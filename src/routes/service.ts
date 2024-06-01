@@ -375,5 +375,73 @@ router.post(
     }
 )
 
+//* Update
+router.put(
+    "/:id",
+    (req, res) => {
+        /* #swagger.responses[200] = {
+                content: {
+                    "application/json": {
+                        ok: false,
+                        code: 200,
+                        data: {
+                            images: "uri.to.img/separated.jpg,by.commas.per/each?resource=identifier",
+                            name: "Tintado de Vidrios",
+                            description: `
+* Limpieza y preparación del vidrio: Los vidrios se limpian a fondo para eliminar cualquier suciedad o residuos.
+* Aplicación de la película de tinte: La película adhesiva de tinte se corta a la medida exacta de cada ventana y se coloca cuidadosamente sobre el vidrio.
+* Activación del adhesivo: Se utiliza un líquido activador o aplicador para asegurar que la película se adhiera firmemente al vidrio sin burbujas o arrugas.
+* Curado y acabado: Se deja que la película cure durante un período de tiempo específico (usualmente 24-48 horas) para que el adhesivo se fije completamente.
+* Inspección final: Después del curado, se revisa que la aplicación del tinte haya quedado uniforme y sin defectos.`,
+                            price: 100_000,
+                            isActive: true
+                        }
+                    }
+                }
+            }
+        */
+        /* #swagger.responses[500] = {
+            content: {
+                "application/json": {
+                    ok: false,
+                    code: 500,
+                    data: {
+                        message: "¡Ha ocurrido un problema inesperado!"
+                    } 
+                }
+            }
+          }
+        */
+        fetch(
+            `${SERVICE_ENDPOINT}${req.params.id}/`
+        ).then(response => response.json())
+        .then(service => {
+            const CODE = 200;
+            const response = new CommonResponseBody(
+                true,
+                CODE,
+                service
+            )
+            res.status(CODE).send(response);
+        }).catch(err => {
+            const CODE = 500;
+    
+            const error: ErrorBody = {
+                private: "Error inesperado en llamado fetch en Update",
+                public: new CommonResponseBody(
+                    false,
+                    CODE,
+                    {
+                        message: "¡Ha ocurrido un problema inesperado!"
+                    }
+                ),
+                errorObject: err
+            }
+            console.log(error.private);
+            console.error(error.errorObject)
+            res.status(CODE).send(error.public);
+        })
+    }
+);
 
 export default router;
