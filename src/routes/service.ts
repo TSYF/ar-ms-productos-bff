@@ -329,7 +329,7 @@ router.post(
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(service)
             }
-        ).then(response => (console.log(response), response.json()))
+        ).then(response => response.json())
         .then(service => {
             if (matches(service, serviceMatcher)) {
                 const response = new CommonResponseBody(
@@ -341,7 +341,7 @@ router.post(
             } else {
                 const CODE = 500;
                 const error: ErrorBody = {
-                    private: "El serviceo retornado no pasa el typecheck de array en Store",
+                    private: "El servicio retornado no pasa el typecheck en Store",
                     public: new CommonResponseBody(
                         false,
                         CODE,
