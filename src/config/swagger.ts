@@ -3,7 +3,10 @@ import swaggerAutogen from 'swagger-autogen';
 import { Service as IService } from '../types/Service';
 
 const Service: IService = {
-    images: "uri.to.img/separated.jpg,by.commas.per/each?resource=identifier",
+    images: [
+      "uri.to.img/separated.jpg",
+      "by.commas.per/each?resource=identifier"
+    ],
     name: "Tintado de Vidrios",
     description: `
 * Limpieza y preparación del vidrio: Los vidrios se limpian a fondo para eliminar cualquier suciedad o residuos.
@@ -12,7 +15,8 @@ const Service: IService = {
 * Curado y acabado: Se deja que la película cure durante un período de tiempo específico (usualmente 24-48 horas) para que el adhesivo se fije completamente.
 * Inspección final: Después del curado, se revisa que la aplicación del tinte haya quedado uniforme y sin defectos.
     `,
-    price: 100_000,
+    minPrice: 100_000,
+    maxPrice: 200_000, 
     isActive: true
 };
 
