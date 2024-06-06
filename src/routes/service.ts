@@ -413,7 +413,12 @@ router.put(
           }
         */
         fetch(
-            `${SERVICE_ENDPOINT}${req.params.id}/`
+            `${SERVICE_ENDPOINT}${req.params.id}/`,
+            {
+                method: "PUT",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(req.body)
+            }
         ).then(response => response.json())
         .then(service => {
             const CODE = 200;
@@ -482,7 +487,10 @@ router.delete(
           }
         */
         fetch(
-            `${SERVICE_ENDPOINT}${req.params.id}/`
+            `${SERVICE_ENDPOINT}${req.params.id}/`,
+            {
+                method: "DELETE"
+            }
         ).then(response => response.json())
         .then(service => {
             const CODE = 200;
